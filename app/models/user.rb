@@ -12,13 +12,13 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 6 }
 
   #class methods
-  def User.new_remember_token
-  # def self.new_remember_token
+  # def User.new_remember_token
+  def self.new_remember_token
     SecureRandom.urlsafe_base64
   end
 
-  def User.digest(token)
-  # def self.digest(token)
+  # def User.digest(token)
+  def self.digest(token)
     Digest::SHA1.hexdigest(token.to_s) #call .to_s to handle test cases in which token is nil
   end
 

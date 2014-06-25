@@ -36,8 +36,8 @@ describe "UserPages" do
 
     describe "with valid input" do
       before do
-        fill_in 'Name',         with: 'Example User'
-        fill_in 'Email',        with: 'user@example.com'
+        fill_in 'Name',         with: 'Foo Bar'
+        fill_in 'Email',        with: 'foo.bar@example.com'
         fill_in 'Password',     with: 'foobar'
         fill_in 'Confirmation', with: 'foobar'
       end
@@ -48,11 +48,11 @@ describe "UserPages" do
 
       describe "after saving the user" do
         before { click_button submit }
-        let(:user) { User.find_by(email: 'user@example.com') }
+        let(:user) { User.find_by(email: 'foo.bar@example.com') }
 
         it { should have_link('Sign out') }
         it { should have_title(user.name) }
-        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+        it { should have_success_message('Welcome') }
       end
     end
   end

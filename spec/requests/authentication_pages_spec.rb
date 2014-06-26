@@ -12,7 +12,7 @@ describe "Authentication" do
 
     describe "with valid input" do
       let(:user) { FactoryGirl.create(:user) }
-      before {mock_sign_in(user)}
+      before { mock_sign_in user }
 
       it { should have_title(user.name) }
       it { should have_signed_in_nav_links_for_user(user) }
@@ -22,9 +22,10 @@ describe "Authentication" do
 
     describe "with invalid input" do
       let(:invalid_user) { FactoryGirl.create(:user, email:'wrong@example.com') }
-      before { click_button "Sign in" }
+      before { mock_sign_in invalid_user }
 
       it { should have_title('Sign in') }
+      it { should have_signin_link }
       it { should have_an_error_message }
       it { should_not have_signed_in_nav_links_for_user(invalid_user) }
       

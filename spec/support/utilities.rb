@@ -1,6 +1,6 @@
 include ApplicationHelper
 
-def signin(user, options={})
+def mock_sign_in(user, options={})
   if options[:no_capybara]
     remember_token = User.new_remember_token
     cookies[:remember_token] = remember_token

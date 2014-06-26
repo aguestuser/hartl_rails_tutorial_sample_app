@@ -12,7 +12,7 @@ describe "Authentication" do
 
     describe "with valid input" do
       let(:user) { FactoryGirl.create(:user) }
-      before {signin(user)}
+      before {mock_sign_in(user)}
 
       it { should have_title(user.name) }
       it { should have_link('Users', href: users_path) }
@@ -78,7 +78,7 @@ describe "Authentication" do
     describe "as wrong user" do
       let(:user) { FactoryGirl.create(:user) }
       let(:wrong_user) { FactoryGirl.create(:user, email: 'wrong@example.com') }
-      before { signin user, no_capybara: true }
+      before { mock_sign_in user, no_capybara: true }
 
       describe "submitting GET request to Users#edit" do
         before { get edit_user_path(wrong_user) }

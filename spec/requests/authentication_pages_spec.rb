@@ -25,13 +25,17 @@ describe "Authentication" do
       before { click_button "Sign in" }
 
       it { should have_title('Sign in') }
-      it { should have_error_message('Invalid') }
+      it { should have_an_error_message }
 
       describe "after visiting another page" do
         before { click_link "Home" }
-        it { should_not have_error_message('Invalid') }
+        it { should_not have_an_error_message }
       end
     end
-
   end
+
+
 end
+
+
+

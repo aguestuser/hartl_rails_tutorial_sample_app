@@ -59,7 +59,10 @@ describe "UserPages" do
 
   describe "edit" do
     let(:user) { FactoryGirl.create(:user) }
-    before { visit edit_user_path(user) }
+    before do 
+      signin user
+      visit edit_user_path(user)
+    end
 
     describe "page" do
       it { should have_content("Update your profile") }
@@ -70,7 +73,25 @@ describe "UserPages" do
     describe "with invalid input" do
       before { click_button "Save changes" }
 
-      it { should have_error_message('Invalid') }
+      it { should have_an_error_message }
+    end
+
+    describe "with valid input" do
+      let(:new_name) { 'New Name' }
+      let(:new_email) { 'new@example.com' }
+      before do
+        fill_in "Name",             with: new_name
+        fill_in "Email",            with: new_email
+        fill_in "Password",         with: user.password
+        fill_in "Confirm Password", with: user.password
+        click_button "Save changes"
+      end
+
+      it { should have_title(new_name) }
+      it { should have_a_success_message }
+      it { should have_signout_link }
+      specify { expect(user.reload.name).to eq new_name }
+      specify { expect(user.reload.email).to eq new_email }
     end
 
   end

@@ -1,6 +1,6 @@
 include ApplicationHelper
 
-def valid_signin(user, options={})
+def signin(user, options={})
   if options[:no_capybara]
     remember_token = User.new_remember_token
     cookies[:remember_token] = remember_token
@@ -31,11 +31,24 @@ def check_nav_link(link, title)
   expect(page).to have_title(full_title(title))
 end
 
+RSpec::Matchers.define :have_an_error_message do
+  match do |page|
+    expect(page).to have_selector('div.alert.alert-error')
+  end
+end
+
 RSpec::Matchers.define :have_error_message do |message|
   match do |page|
     expect(page).to have_selector('div.alert.alert-error', text: message)
   end
 end
+
+RSpec::Matchers.define :have_a_success_message do
+  match do |page|
+    expect(page).to have_selector('div.alert.alert-success')
+  end
+end
+
 
 RSpec::Matchers.define :have_success_message do |message|
   match do |page|
@@ -50,4 +63,9 @@ RSpec::Matchers.define :have_heading do |heading|
   end
 end
 
+RSpec::Matchers.define :have_signout_link do
+  match do |page|
+    expect(page).to have_link('Sign out', href: signout_path)
+  end
+end
 

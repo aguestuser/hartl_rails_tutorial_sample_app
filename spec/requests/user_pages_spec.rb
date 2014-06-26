@@ -5,6 +5,7 @@ describe "UserPages" do
   subject { page }
 
   describe "index" do
+    
     let(:user) { FactoryGirl.create(:user) }
     before(:each) do
       mock_sign_in user
@@ -22,6 +23,24 @@ describe "UserPages" do
       it 'should list each user' do
         User.paginate(page: 1).each do |user|
           expect(page).to have_selector('li', text: user.name)
+        end
+      end
+    end
+
+    describe "delete links" do
+      it { should_not have_a_delete_link }
+    
+      describe "user logged in as admin" do
+        let(:admin) { FactoryGirl.create(:admin) }
+        before do
+          mock_sign_in admin
+          visit users_path 
+        end
+
+        it { should have_delete_link_for_user(User.first) }
+        it 'should be able to delete another user' do
+          expect { click_first_delete_link }.to change(User, :count).by(-1)
+          it { should_not have_delete_link_for_user(admin)}
         end
       end
     end

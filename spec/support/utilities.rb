@@ -69,3 +69,20 @@ RSpec::Matchers.define :have_signout_link do
   end
 end
 
+RSpec::Matchers.define :have_a_delete_link do
+  match do |page|
+    expect(page).to have_link('delete')
+  end
+end
+
+RSpec::Matchers.define :have_delete_link_for_user do |user|
+  match do |page|
+    expect(page).to have_link('delete', href: user_path(user))
+  end
+end
+
+def click_first_delete_link
+  click_link('delete', match: :first)
+end
+
+

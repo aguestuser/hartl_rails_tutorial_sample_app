@@ -42,6 +42,7 @@ describe "UserPages" do
           expect { click_first_delete_link }.to change(User, :count).by(-1)
         end
         it { should_not have_delete_link_for_user(admin) }
+        end
       end
     end
   end

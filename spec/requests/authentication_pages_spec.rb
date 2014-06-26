@@ -61,9 +61,21 @@ describe "Authentication" do
             click_button 'Sign in'
           end
 
-          describe 'after signing in' do
+          describe 'after signing in' do # test 'friendly forwarding'
             it 'should render the protected page' do
               expect(page).to have_title('Edit user') 
+            end
+
+            describe "when signing in again" do
+              before do
+                click_link "Sign out"
+                visit signin_path
+                mock_sign_in user                
+              end
+
+              it 'should render the default (profile) page' do |variable|
+                expect(page).to have_title(user.name)
+              end
             end
           end
         end
@@ -102,6 +114,17 @@ describe "Authentication" do
         before { delete user_path(user) }
         specify { expect(response).to redirect_to(root_url) }
       end
+    end
+
+    describe "as admin user" do
+      let(:admin) { FactoryGirl.create(:admin) }
+      before { mock_sign_in admin, no_capybara: true }
+
+      describe "submitting DELETE request to own Users#destory for own account" do
+        before { delete user_path(admin) }
+        specify { expect(response).to redirect_to(user_path) }
+      end
+
     end
   end
 end

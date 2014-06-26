@@ -28,6 +28,7 @@ describe User do
     end
 
     it { should be_admin }
+
   end
 
   describe 'when name is not present' do

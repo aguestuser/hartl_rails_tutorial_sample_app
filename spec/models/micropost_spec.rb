@@ -2,13 +2,15 @@ require 'spec_helper'
 
 describe Micropost do
   let(:user) { FactoryGirl.create(:user) }
-  before { @micropost = Micropost.new(content: 'Lorem ipsum', user_id: user.id) }
+  before { @micropost = user.microposts.build(content: 'Lorem ipsum') }
 
   subject { @micropost }
 
   describe "attributes" do
     it { should respond_to(:content) }
-    it { should respond_to(:user_id) }    
+    it { should respond_to(:user_id) }   
+    it { should respond_to(:user) }
+    its(:user) { should eq user } 
   end
 
   describe "validation" do

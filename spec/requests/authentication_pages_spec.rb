@@ -67,7 +67,7 @@ describe "Authentication" do
           end
         end
 
-        describe 'when visiting the user index' do 
+        describe 'visiting the user index' do 
           before { visit users_path }
           it { should have_title('Sign in') }
         end

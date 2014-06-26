@@ -81,6 +81,23 @@ RSpec::Matchers.define :have_delete_link_for_user do |user|
   end
 end
 
+RSpec::Matchers.define :have_signed_in_nav_links_for_user do |user|
+  match do |page|
+    expect(page).to have_link('Users', href: users_path)
+    expect(page).to have_link('Profile', href: user_path(user))
+    expect(page).to have_link('Sign out', href: signout_path) 
+    expect(page).to have_link('Settings', href: edit_user_path(user))
+  end
+end
+
+RSpec::Matchers.define :have_signin_link do
+  match do |page|
+    expect(page).to have_link('Sign in', href: signin_path)
+  end
+end
+    
+
+
 def click_first_delete_link
   click_link('delete', match: :first)
 end

@@ -136,6 +136,21 @@ describe "UserPages" do
       specify { expect(user.reload.email).to eq new_email }
     end
 
+    describe "forbidden admin attribute" do
+      let(:params) do
+        { user: { 
+            admin: true,
+            password: user.password,
+            password_confirmation: user.password } }
+      end
+      before do
+        mock_sign_in user, no_cabybara: true
+        patch user_path(user), params
+      end
+
+      specify { expect(user.reload).not_to be_admin }
+    end
+
   end
 
 end

@@ -91,6 +91,17 @@ describe "Authentication" do
         specify { expect(response).to redirect_to(root_url) }
       end
     end
+
+    describe "as non-admin user" do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:non_admin) { FactoryGirl.create(:user) }
+      before { mock_sign_in non_admin, no_capybara: true }
+
+      describe "submitting DELETE request to Users#destroy" do
+        before { delete user_path(user) }
+        specify { expect(response).to redirect_to(root_url) }
+      end
+    end
   end
 end
 

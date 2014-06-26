@@ -37,11 +37,11 @@ describe "UserPages" do
           visit users_path 
         end
 
-        it { should have_delete_link_for_user(User.first) }
+        it { should have_a_delete_link }
         it 'should be able to delete another user' do
           expect { click_first_delete_link }.to change(User, :count).by(-1)
-          it { should_not have_delete_link_for_user(admin)}
         end
+        it { should_not have_delete_link_for_user(admin) }
       end
     end
   end

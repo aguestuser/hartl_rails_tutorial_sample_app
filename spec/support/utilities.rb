@@ -38,6 +38,12 @@ def check_nav_link(link, title)
   expect(page).to have_title(full_title(title))
 end
 
+def click_first_delete_link
+  click_link('delete', match: :first)
+end
+
+#application matchers
+
 RSpec::Matchers.define :have_an_error_message do
   match do |page|
     expect(page).to have_selector('div.alert.alert-error')
@@ -69,6 +75,8 @@ RSpec::Matchers.define :have_heading do |heading|
     expect(page).to have_selector('h1', text: heading)
   end
 end
+
+#authorization matchers
 
 RSpec::Matchers.define :have_signout_link do
   match do |page|
@@ -102,11 +110,14 @@ RSpec::Matchers.define :have_signin_link do
     expect(page).to have_link('Sign in', href: signin_path)
   end
 end
+
+#homepage matchers
     
-
-
-def click_first_delete_link
-  click_link('delete', match: :first)
+RSpec::Matchers.define :have_feed_item do |item|
+  match do |page|
+    expect(page).to have_selector("li##{item.id}", text: item.content)
+  end
 end
+
 
 

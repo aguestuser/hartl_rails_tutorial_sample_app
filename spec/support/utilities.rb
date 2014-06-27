@@ -13,6 +13,13 @@ def mock_sign_in(user, options={})
   end
 end
 
+def invalid_sign_in
+  visit signin_path
+  fill_in "Email",    with: 'totally.wrong@nonexistent.com'
+  fill_in "Password", with: 'notevenapassword'
+  click_button "Sign in"   
+end
+
 def check_nav_links()
   links = [
     { text: 'About' ,   new_page_title: 'About Us' },

@@ -53,7 +53,7 @@ describe "Authentication" do
           specify { expect(response).to redirect_to(signin_path) }
         end
 
-        describe "when signing in to access a protected page" do
+        describe "when signing in to access a profile page" do
           before do
             visit edit_user_path(user)
             fill_in 'Email',    with: user.email
@@ -83,6 +83,20 @@ describe "Authentication" do
         describe 'visiting the user index' do 
           before { visit users_path }
           it { should have_title('Sign in') }
+        end
+
+        describe "in the Microposts controller" do
+          
+          describe "submitting to the create action" do
+            before { post microposts_path } # Microposts#create
+            specify { expect(response).to redirect_to(signin_path) }
+          end
+
+          describe "submitting to the destroy action" do
+            before { delete microposts_path(FactoryGirl.create(:micropost)) }
+            specify { expect(response).to redirect_to(signin_path) }
+          end
+
         end
 
       end

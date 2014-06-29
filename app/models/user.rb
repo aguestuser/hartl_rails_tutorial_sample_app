@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
   #associations
   has_many :microposts, dependent: :destroy
-  
+  has_many :relationships, foreign_key: 'follower_id', dependent: :destroy
+
   #before filters
   before_save { email.downcase! }
   before_create :create_remember_token

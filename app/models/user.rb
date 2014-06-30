@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   #associations
   has_many :microposts, dependent: :destroy
   has_many :relationships, foreign_key: 'follower_id', dependent: :destroy
+  has_many :followed_users, through: :relationships, source: :followed
 
   #before filters
   before_save { email.downcase! }
@@ -28,6 +29,18 @@ class User < ActiveRecord::Base
   #public methods
   def feed
     Micropost.where("user_id = ?", id)
+  end
+
+  def following?(other_user)
+    self.relationships.find_by(followed_id: other_user.id)
+  end
+
+  def follow!(other_user)
+    self.relationships.create!(followed_id: other_user.id)
+  end
+
+  def unfollow!(other_user)
+    self.relationships.find_by(followed_id: other_user.id).destroy
   end
 
   #private methods

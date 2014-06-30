@@ -16,16 +16,19 @@ describe User do
     it { should respond_to(:password_digest)}
     it { should respond_to(:password) }
     it { should respond_to(:password_confirmation) }
-    it { should respond_to(:authenticate) }
-    it { should respond_to(:remember_token) }
-    it { should respond_to(:admin) }  
+    #associations
     it { should respond_to(:microposts)}  
-    it { should respond_to(:feed) }
     it { should respond_to(:relationships) }
     it { should respond_to(:followed_users)}
+    it { should respond_to(:reverse_relationships) }
+    it { should respond_to(:followers) }
   end
 
   describe "methods" do
+    it { should respond_to(:authenticate) }
+    it { should respond_to(:remember_token) }
+    it { should respond_to(:admin) }  
+    it { should respond_to(:feed) }
     it { should respond_to(:following?) }
     it { should respond_to(:follow!)}
 
@@ -37,13 +40,29 @@ describe User do
       end
 
       it { should be_following(other_user) }
-      its(:followed_users) { should include(other_user) }
+
+      describe "followed user appearing as followed" do
+        its(:followed_users) { should include(other_user) }        
+      end
+
+      describe "following user appearing as follower" do
+        subject { other_user }
+        its(:followers) { should include(@user) }
+      end
 
       describe "unfollowing" do
         before { @user.unfollow!(other_user) }
 
         it { should_not be_following(other_user) }
-        its(:followed_users) { should_not include(other_user) }
+
+        describe "followed user no longer appearing as followed" do
+          its(:followed_users) { should_not include(other_user) }
+        end
+
+        describe "following user no longer appearing as follower" do
+          subject { other_user }
+          its(:followers) { should_not include(@user) }
+        end
       end
     end
   end

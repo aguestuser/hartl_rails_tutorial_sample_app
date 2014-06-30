@@ -9,6 +9,16 @@ describe Relationship do
 
   describe "validation" do
     it { should be_valid }
+
+    describe "when follower id not present" do
+      before { relationship.follower_id = nil }
+      it { should_not be_valid }
+    end
+
+    describe "when followed id not present" do
+      before { relationship.followed_id = nil }
+      it { should_not be_valid }
+    end
   end
 
   describe "follower methods" do

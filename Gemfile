@@ -18,12 +18,20 @@ gem 'jquery-rails', '3.0.4'
 gem 'turbolinks', '1.1.1'
 gem 'jbuilder', '1.0.2'
 
+gem 'haml'
+gem 'haml-rails'
+gem 'haml-contrib'
+gem 'RedCloth'
+
+
 group :development, :test do
   gem 'rspec-rails', '2.13.1'
   gem 'guard-rspec', '2.5.0'
   gem 'spork-rails', '4.0.0'
   gem 'guard-spork', '1.5.0'
   gem 'childprocess', '0.3.6'
+  gem 'erb2haml'
+  gem 'annotate', ">=2.6.0"
 end
 
 group :test do
